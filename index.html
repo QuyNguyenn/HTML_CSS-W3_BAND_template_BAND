@@ -7,6 +7,7 @@
     <title>The Band</title>
     <link rel="icon" href="./assets/img/icon/icon.png" type="image/x-icon">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
     <link rel="stylesheet" href="./assets/fonts/themify-icons/themify-icons.css">
     <script src="https://kit.fontawesome.com/eb5105679e.js" crossorigin="anonymous"></script>
   </head>
@@ -34,10 +35,14 @@
             <!--End: nav-->
 
             <!--Begin: search-->
-            <div class="search-btn">
-                <i class="search-icon ti-search"></i>
+            <div class="search-btn navBtn">
+                <i class="navBtn-icon ti-search"></i>
             </div>
             <!--End: search-->
+
+            <div id="js-menu-btn" class="menu-btn navBtn js-menu-btn">
+                <i class="navBtn-icon fas fa-bars"></i>
+            </div>
         </div>
     
         <div id="slider">
@@ -195,6 +200,11 @@
         const modalClose = document.querySelector('.js-modal-close')
         const modal = document.querySelector('.js-modal')
         const modalContainer = document.querySelector('.js-container')
+        var menuBtn = document.getElementById('js-menu-btn')
+        var header = document.getElementById('header')
+        var navItems = document.querySelectorAll('#nav li a[href*="#"]')
+        var curentHeight = header.clientHeight
+        console.log(navItems)
         
         // Hàm hiển thị modal class, thêm class open
         function showBuyTickets() {
@@ -220,6 +230,31 @@
         modalContainer.addEventListener('click', function (event) {
             event.stopPropagation()
         })
+
+        // Đóng mở mobile menu
+        menuBtn.onclick = function () {
+            var isClose = header.clientHeight === curentHeight
+            if (isClose) {
+                header.style.height = 'auto';
+            }
+            else {
+                header.style.height = null;
+            }
+        }
+
+        // Tự động đóng khi chọn menu
+        for (var i=0; i < navItems.length; i++)
+        {
+            
+            navItems[i].onclick = function (event) {
+                var menuItem = this.nextElementSibling && this.nextElementSibling.classList.contains('subnav');
+                if (menuItem) {
+                    event.preventDefault();
+                } else {
+                    header.style.height = null;
+                }
+            }
+        }
     </script>
 </body>
 </html>
